@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veille Tech · Jumeaux Numériques & Supply Chain</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rouge:#C8102E; --rouge-clair:#FF4060; --orange:#FF7A3C;
+  --cyan:#00C8E0; --vert:#22C55E; --violet:#8B5CF6; --jaune:#F59E0B;
+  --noir:#07080D; --gris-fonce:#0E0F18; --gris:#181927; --gris-clair:#252638;
+  --blanc:#F0F0EC; --blanc-casse:#D8D8D0; --texte:#A8A8B8;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--noir);color:var(--texte);overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.4}
+.side-bar{position:fixed;left:0;top:0;width:3px;height:100vh;background:linear-gradient(180deg,var(--cyan) 0%,var(--rouge-clair) 50%,var(--violet) 100%);z-index:200}
+
+/* WELCOME */
+.welcome-banner{background:linear-gradient(135deg,#0a1628 0%,#0e0a20 50%,#1a0a10 100%);border-bottom:1px solid rgba(0,200,224,.25);padding:.7rem 3.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;position:relative;overflow:hidden}
+.welcome-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,200,224,.06) 0%,transparent 50%,rgba(200,16,46,.06) 100%)}
+.welcome-text{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.1em;color:var(--blanc-casse);position:relative}
+.welcome-text strong{color:var(--cyan)}
+.welcome-date{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:var(--rouge-clair);position:relative;display:flex;align-items:center;gap:.5rem}
+.pulse-dot{width:7px;height:7px;background:var(--vert);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.5)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:190;display:flex;align-items:center;justify-content:space-between;padding:.85rem 3.5rem;background:rgba(7,8,13,.92);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-logo{display:flex;align-items:center;gap:1rem;text-decoration:none}
+.nav-logo-svg{width:54px;height:54px;flex-shrink:0}
+.nav-logo-title{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.08em;color:var(--blanc);line-height:1}
+.nav-logo-sub{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase}
+.nav-links{display:flex;gap:1.6rem;list-style:none}
+.nav-links a{font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--texte);text-decoration:none;position:relative;transition:color .3s}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--cyan);transition:width .3s}
+.nav-links a:hover{color:var(--blanc)}
+.nav-links a:hover::after{width:100%}
+.nav-badge{font-family:'JetBrains Mono',monospace;font-size:.6rem;background:rgba(0,200,224,.1);border:1px solid rgba(0,200,224,.3);color:var(--cyan);padding:.3rem .9rem;border-radius:20px;letter-spacing:.1em}
+
+/* HERO */
+.hero{min-height:92vh;display:flex;align-items:center;padding:5rem 3.5rem 4rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 55% 60% at 70% 45%,rgba(0,200,224,.08) 0%,transparent 65%),radial-gradient(ellipse 40% 40% at 20% 70%,rgba(200,16,46,.08) 0%,transparent 60%),radial-gradient(ellipse 30% 30% at 85% 80%,rgba(139,92,246,.06) 0%,transparent 60%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,224,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,224,.04) 1px,transparent 1px);background-size:55px 55px;mask-image:radial-gradient(ellipse at 60% 50%,black 30%,transparent 75%)}
+.hero-nodes{position:absolute;inset:0;pointer-events:none}
+.hero-content{position:relative;z-index:2;max-width:650px}
+.hero-tag{display:inline-flex;align-items:center;gap:.6rem;font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan);margin-bottom:1.8rem;animation:fadeUp .7s ease both}
+.hero-tag::before{content:'';display:inline-block;width:20px;height:2px;background:var(--cyan)}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.2rem,7vw,6rem);line-height:.93;letter-spacing:.02em;color:var(--blanc);margin-bottom:1.4rem;animation:fadeUp .7s .1s ease both}
+.hero-title .c1{color:var(--cyan)}.hero-title .c2{color:var(--rouge-clair)}
+.hero-desc{font-size:.98rem;line-height:1.75;color:var(--texte);max-width:500px;margin-bottom:2.5rem;font-weight:300;animation:fadeUp .7s .2s ease both}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .7s .3s ease both}
+.btn-primary{background:linear-gradient(135deg,var(--rouge),var(--rouge-clair));color:var(--blanc);border:none;padding:.85rem 2rem;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:opacity .3s,transform .2s;border-radius:3px;box-shadow:0 4px 20px rgba(200,16,46,.35)}
+.btn-primary:hover{opacity:.88;transform:translateY(-2px)}
+.btn-cyan{background:linear-gradient(135deg,rgba(0,200,224,.15),rgba(0,200,224,.05));color:var(--cyan);border:1px solid rgba(0,200,224,.4);padding:.85rem 2rem;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:all .3s;border-radius:3px}
+.btn-cyan:hover{background:rgba(0,200,224,.2);transform:translateY(-2px)}
+.hero-stats{position:absolute;right:3.5rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:1.5rem;animation:fadeIn 1s .5s ease both}
+.stat-card{background:rgba(24,25,39,.85);border:1px solid rgba(255,255,255,.07);border-left:3px solid var(--cyan);padding:1rem 1.4rem;min-width:155px;backdrop-filter:blur(10px);transition:transform .3s,border-color .3s}
+.stat-card:hover{transform:translateX(-5px);border-left-color:var(--rouge-clair)}
+.stat-card:nth-child(2){border-left-color:var(--orange)}.stat-card:nth-child(3){border-left-color:var(--violet)}
+.stat-number{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--blanc);line-height:1}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--texte);letter-spacing:.15em;text-transform:uppercase;margin-top:.25rem}
+
+/* SECTIONS */
+section{padding:5rem 3.5rem}
+section.alt{background:var(--gris-fonce)}
+.section-header{margin-bottom:3rem;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.section-label::before{content:'';display:inline-block;width:14px;height:2px;background:var(--cyan)}
+.section-label.red{color:var(--rouge-clair)}.section-label.red::before{background:var(--rouge-clair)}
+.section-label.orange{color:var(--orange)}.section-label.orange::before{background:var(--orange)}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,3.5vw,2.9rem);letter-spacing:.04em;color:var(--blanc);line-height:1}
+.divider{border:none;border-top:1px solid rgba(255,255,255,.05);margin:0 3.5rem}
+
+/* INTRO DT */
+.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.intro-text p{font-size:.95rem;line-height:1.85;color:var(--texte);margin-bottom:1.2rem}
+.intro-text p strong{color:var(--blanc)}
+.intro-highlight{background:linear-gradient(135deg,rgba(0,200,224,.08),rgba(139,92,246,.05));border-left:3px solid var(--cyan);padding:1.2rem 1.5rem;margin:1.5rem 0;font-size:.9rem;line-height:1.7;color:var(--blanc-casse);font-style:italic}
+.intro-illustration{position:relative;display:flex;align-items:center;justify-content:center}
+.dt-visual{width:100%;max-width:480px}
+
+/* GEO */
+.geo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-bottom:3rem}
+.event-card{background:var(--gris);border:1px solid rgba(255,255,255,.06);border-top:3px solid var(--rouge-clair);padding:1.8rem;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.event-card:nth-child(2){border-top-color:var(--orange)}.event-card:nth-child(3){border-top-color:var(--jaune)}.event-card:nth-child(4){border-top-color:var(--violet)}
+.event-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(0,0,0,.4)}
+.event-icon{font-size:1.6rem;margin-bottom:.8rem}
+.event-title{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.06em;color:var(--blanc);margin-bottom:.5rem}
+.event-year{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.15em;color:var(--rouge-clair);margin-bottom:.8rem;text-transform:uppercase}
+.event-card:nth-child(2) .event-year{color:var(--orange)}.event-card:nth-child(3) .event-year{color:var(--jaune)}.event-card:nth-child(4) .event-year{color:var(--violet)}
+.event-desc{font-size:.81rem;line-height:1.65;color:var(--texte)}
+.geo-conclusion{background:linear-gradient(135deg,rgba(200,16,46,.1),rgba(139,92,246,.08));border:1px solid rgba(200,16,46,.2);padding:2rem 2.5rem;display:grid;grid-template-columns:auto 1fr;gap:1.5rem;align-items:center;border-radius:4px}
+.geo-conclusion-icon{font-size:2.5rem}
+.geo-conclusion-text{font-size:.9rem;line-height:1.7;color:var(--blanc-casse)}
+.geo-conclusion-text strong{color:var(--cyan)}
+
+/* AXES */
+.axes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.axe-card{background:var(--gris);border:1px solid rgba(255,255,255,.06);padding:2rem;position:relative;overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s;cursor:default}
+.axe-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--violet));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.axe-card:nth-child(2)::before{background:linear-gradient(90deg,var(--rouge-clair),var(--orange))}.axe-card:nth-child(3)::before{background:linear-gradient(90deg,var(--violet),var(--cyan))}.axe-card:nth-child(4)::before{background:linear-gradient(90deg,var(--vert),var(--cyan))}
+.axe-card:hover{transform:translateY(-6px);border-color:rgba(0,200,224,.25);box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 30px rgba(0,200,224,.08)}
+.axe-card:hover::before{transform:scaleX(1)}
+.axe-num{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:rgba(0,200,224,.1);line-height:1;position:absolute;top:.8rem;right:1rem}
+.axe-card:nth-child(2) .axe-num{color:rgba(200,16,46,.12)}.axe-card:nth-child(3) .axe-num{color:rgba(139,92,246,.12)}.axe-card:nth-child(4) .axe-num{color:rgba(34,197,94,.12)}
+.axe-icon{font-size:1.7rem;margin-bottom:.9rem}
+.axe-title{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.06em;color:var(--blanc);margin-bottom:.3rem}
+.axe-focus{font-size:.7rem;color:var(--cyan);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:1rem}
+.axe-card:nth-child(2) .axe-focus{color:var(--rouge-clair)}.axe-card:nth-child(3) .axe-focus{color:var(--violet)}.axe-card:nth-child(4) .axe-focus{color:var(--vert)}
+.axe-tags{display:flex;flex-wrap:wrap;gap:.4rem}
+.axe-tag{font-size:.62rem;padding:.22rem .55rem;background:rgba(0,200,224,.08);border:1px solid rgba(0,200,224,.15);color:var(--texte);letter-spacing:.04em;border-radius:2px}
+.axe-card:nth-child(2) .axe-tag{background:rgba(200,16,46,.08);border-color:rgba(200,16,46,.18)}.axe-card:nth-child(3) .axe-tag{background:rgba(139,92,246,.08);border-color:rgba(139,92,246,.18)}.axe-card:nth-child(4) .axe-tag{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.18)}
+
+/* TABLE */
+.filter-bar{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1.8rem;align-items:center}
+.filter-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--texte);margin-right:.4rem}
+.filter-btn{padding:.38rem .9rem;font-size:.68rem;font-family:'DM Sans',sans-serif;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--texte);cursor:pointer;transition:all .25s;border-radius:2px}
+.filter-btn:hover,.filter-btn.active{background:var(--rouge);border-color:var(--rouge);color:var(--blanc)}
+.filter-btn[data-axe="1"].active{background:var(--cyan);border-color:var(--cyan);color:var(--noir)}.filter-btn[data-axe="2"].active{background:var(--rouge-clair);border-color:var(--rouge-clair)}.filter-btn[data-axe="4"].active{background:var(--violet);border-color:var(--violet)}.filter-btn[data-axe="5"].active{background:var(--vert);border-color:var(--vert);color:var(--noir)}
+.search-wrap{margin-left:auto;position:relative}
+.search-input{background:var(--gris);border:1px solid rgba(255,255,255,.1);color:var(--blanc);padding:.45rem 1rem .45rem 2.2rem;font-family:'DM Sans',sans-serif;font-size:.78rem;width:220px;outline:none;transition:border-color .3s,width .3s;border-radius:2px}
+.search-input:focus{border-color:var(--cyan);width:280px}
+.search-icon{position:absolute;left:.7rem;top:50%;transform:translateY(-50%);font-size:.75rem;opacity:.5}
+.table-wrap{overflow-x:auto;border:1px solid rgba(255,255,255,.06);border-radius:4px}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+thead{background:rgba(0,200,224,.07);border-bottom:1px solid rgba(0,200,224,.2)}
+thead th{padding:1rem 1.2rem;text-align:left;font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);white-space:nowrap;cursor:pointer;user-select:none;transition:color .2s}
+thead th:hover{color:var(--blanc)}
+thead th .sort-icon{opacity:.35;margin-left:.3rem}
+thead th.sorted .sort-icon{opacity:1}
+tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .2s}
+tbody tr:hover{background:rgba(0,200,224,.04)}
+tbody tr:last-child{border-bottom:none}
+tbody td{padding:1rem 1.2rem;vertical-align:top;color:var(--texte);line-height:1.5}
+.article-title{font-weight:600;color:var(--blanc-casse);font-size:.86rem;margin-bottom:.2rem}
+.article-source{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--cyan);letter-spacing:.1em;text-transform:uppercase}
+.authors-cell{font-size:.76rem;max-width:180px}
+.date-cell{font-family:'JetBrains Mono',monospace;font-size:.7rem;white-space:nowrap}
+.axe-pill{display:inline-block;padding:.18rem .55rem;font-size:.58rem;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;border-radius:2px;white-space:nowrap}
+.pill-1{background:rgba(0,200,224,.12);color:var(--cyan);border:1px solid rgba(0,200,224,.25)}
+.pill-2{background:rgba(200,16,46,.12);color:#FF7070;border:1px solid rgba(200,16,46,.25)}
+.pill-4{background:rgba(139,92,246,.12);color:#A78BFA;border:1px solid rgba(139,92,246,.25)}
+.pill-5{background:rgba(34,197,94,.12);color:var(--vert);border:1px solid rgba(34,197,94,.25)}
+.link-btn{display:inline-flex;align-items:center;gap:.35rem;font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan);text-decoration:none;transition:gap .2s,color .2s;white-space:nowrap}
+.link-btn:hover{color:var(--blanc);gap:.6rem}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:1.2rem;border-top:1px solid rgba(255,255,255,.06);flex-wrap:wrap;gap:.8rem}
+.page-info{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--texte);letter-spacing:.08em}
+.page-info span{color:var(--blanc)}
+.page-controls{display:flex;gap:.3rem;align-items:center}
+.page-btn{width:34px;height:34px;background:var(--gris);border:1px solid rgba(255,255,255,.08);color:var(--texte);font-size:.78rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:'JetBrains Mono',monospace;border-radius:2px}
+.page-btn:hover:not(:disabled){background:var(--cyan);border-color:var(--cyan);color:var(--noir)}
+.page-btn.active{background:var(--rouge);border-color:var(--rouge);color:var(--blanc)}
+.page-btn:disabled{opacity:.25;cursor:default}
+.per-page{display:flex;align-items:center;gap:.5rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--texte)}
+.per-page select{background:var(--gris);border:1px solid rgba(255,255,255,.08);color:var(--blanc);padding:.28rem .5rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;cursor:pointer;outline:none;border-radius:2px}
+.no-results{text-align:center;padding:3rem;color:var(--texte);font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.1em}
+.no-results span{display:block;font-size:2rem;margin-bottom:1rem}
+
+/* KEYWORDS */
+.kw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.kw-group{background:var(--gris);border:1px solid rgba(255,255,255,.06);padding:1.8rem}
+.kw-group-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;color:var(--cyan);margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:1px solid rgba(0,200,224,.15)}
+.kw-list{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.kw-list li{display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--texte)}
+.kw-list li::before{content:'▸';color:var(--cyan);font-size:.65rem;flex-shrink:0}
+
+/* SOURCES */
+.sources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:1rem}
+.source-card{background:var(--gris);border:1px solid rgba(255,255,255,.06);padding:1.5rem;display:flex;flex-direction:column;gap:.8rem;transition:border-color .3s,transform .3s;text-decoration:none;border-radius:3px}
+.source-card:hover{border-color:rgba(0,200,224,.3);transform:translateY(-4px)}
+.source-icon{font-size:1.5rem}
+.source-name{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.08em;color:var(--blanc)}
+.source-type{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--cyan);letter-spacing:.14em;text-transform:uppercase}
+
+/* CONTACT */
+.contact-wrap{max-width:660px;margin:0 auto;background:var(--gris);border:1px solid rgba(255,255,255,.07);border-top:3px solid var(--cyan);padding:3rem;text-align:center;border-radius:4px}
+.contact-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,rgba(0,200,224,.2),rgba(139,92,246,.2));border:2px solid rgba(0,200,224,.3);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 1.5rem}
+.contact-name{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.1em;color:var(--blanc);margin-bottom:.3rem}
+.contact-role{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--cyan);letter-spacing:.18em;text-transform:uppercase;margin-bottom:1.5rem}
+.contact-desc{font-size:.88rem;line-height:1.7;color:var(--texte);margin-bottom:2rem}
+.contact-mail{display:inline-flex;align-items:center;gap:.6rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;background:rgba(0,200,224,.08);border:1px solid rgba(0,200,224,.3);color:var(--cyan);padding:.8rem 1.8rem;border-radius:3px;text-decoration:none;transition:all .3s;letter-spacing:.06em}
+.contact-mail:hover{background:rgba(0,200,224,.18);transform:translateY(-2px)}
+
+/* FOOTER */
+footer{background:var(--gris-fonce);border-top:1px solid rgba(0,200,224,.12);padding:2.5rem 3.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-left{display:flex;flex-direction:column;gap:.4rem}
+.footer-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;color:var(--blanc)}
+.footer-meta{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--texte);letter-spacing:.1em}
+.footer-meta .c{color:var(--cyan)}.footer-meta .r{color:var(--rouge-clair)}
+
+/* ANIMS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.float-anim{animation:float 5s ease-in-out infinite}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+@media(max-width:1000px){
+  .hero-stats{display:none}.kw-grid,.intro-grid{grid-template-columns:1fr}
+  nav{padding:.9rem 1.5rem}.nav-links{display:none}
+  section{padding:3rem 1.5rem}.hero{padding:4rem 1.5rem 3rem}
+  .divider{margin:0 1.5rem}.footer,.welcome-banner{padding-left:1.5rem;padding-right:1.5rem}
+}
+</style>
+</head>
+<body>
+<div class="side-bar"></div>
+
+<!-- WELCOME BANNER -->
+<div class="welcome-banner">
+  <div class="welcome-text">
+    🎓 Bienvenue sur le site dédié à la <strong>Veille Technologique NTIC</strong> —
+    <strong>Jumeaux Numériques & Optimisation de la Supply Chain</strong> · Centrale Lyon 2026
+  </div>
+  <div class="welcome-date">
+    <div class="pulse-dot"></div>
+    <span id="todayDate"></span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <svg class="nav-logo-svg" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="27,2 51,15 51,39 27,52 3,39 3,15" fill="#0E0F18" stroke="rgba(0,200,224,0.45)" stroke-width="1.3"/>
+      <!-- supply chain nodes -->
+      <circle cx="27" cy="13" r="4.5" fill="#00C8E0" opacity=".9"/>
+      <circle cx="40" cy="33" r="4.5" fill="#C8102E" opacity=".9"/>
+      <circle cx="14" cy="33" r="4.5" fill="#8B5CF6" opacity=".9"/>
+      <!-- links -->
+      <line x1="27" y1="17.5" x2="38" y2="29.5" stroke="rgba(0,200,224,0.5)" stroke-width="1.3" stroke-dasharray="3 2"/>
+      <line x1="27" y1="17.5" x2="16" y2="29.5" stroke="rgba(139,92,246,0.5)" stroke-width="1.3" stroke-dasharray="3 2"/>
+      <line x1="36" y1="33" x2="18" y2="33" stroke="rgba(200,16,46,0.4)" stroke-width="1.3" stroke-dasharray="3 2"/>
+      <!-- digital twin outer ring -->
+      <polygon points="27,5 48,17 48,37 27,49 6,37 6,17" fill="none" stroke="rgba(0,200,224,0.14)" stroke-width="0.8" stroke-dasharray="4 3"/>
+      <!-- center hub -->
+      <circle cx="27" cy="27" r="4" fill="rgba(0,200,224,0.15)"/>
+      <circle cx="27" cy="27" r="2" fill="#00C8E0"/>
+    </svg>
+    <div>
+      <div class="nav-logo-title">Digital Twin Hub</div>
+      <div class="nav-logo-sub">Supply Chain · Veille NTIC · ECL 2026</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#intro-dt">Comprendre</a></li>
+    <li><a href="#geopolitique">Contexte</a></li>
+    <li><a href="#axes">Axes</a></li>
+    <li><a href="#articles">Articles</a></li>
+    <li><a href="#sources">Sources</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-badge">Centrale Lyon · 2026</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <svg class="hero-nodes" viewBox="0 0 1400 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <circle cx="900" cy="180" r="4" fill="rgba(0,200,224,0.4)"/>
+    <circle cx="1050" cy="300" r="5" fill="rgba(139,92,246,0.4)"/>
+    <circle cx="1180" cy="150" r="3" fill="rgba(200,16,46,0.4)"/>
+    <circle cx="1280" cy="400" r="4" fill="rgba(0,200,224,0.3)"/>
+    <circle cx="1100" cy="480" r="3" fill="rgba(255,122,60,0.4)"/>
+    <circle cx="950" cy="500" r="4" fill="rgba(139,92,246,0.3)"/>
+    <line x1="900" y1="180" x2="1050" y2="300" stroke="rgba(0,200,224,0.15)" stroke-width="1"/>
+    <line x1="1050" y1="300" x2="1180" y2="150" stroke="rgba(139,92,246,0.15)" stroke-width="1"/>
+    <line x1="1050" y1="300" x2="1280" y2="400" stroke="rgba(0,200,224,0.12)" stroke-width="1"/>
+    <line x1="1280" y1="400" x2="1100" y2="480" stroke="rgba(200,16,46,0.12)" stroke-width="1"/>
+    <line x1="1100" y1="480" x2="950" y2="500" stroke="rgba(139,92,246,0.15)" stroke-width="1"/>
+    <line x1="950" y1="500" x2="900" y2="180" stroke="rgba(0,200,224,0.1)" stroke-width="1" stroke-dasharray="6 4"/>
+  </svg>
+  <div class="hero-content">
+    <div class="hero-tag">Veille Technologique · NTIC · Centrale Lyon 2026</div>
+    <h1 class="hero-title">
+      <span class="c1">Jumeaux</span>
+      Numériques<br>& <span class="c2">Supply Chain</span>
+    </h1>
+    <p class="hero-desc">
+      Exploration des dernières avancées technologiques sur les Digital Twins appliqués à l'optimisation de la chaîne d'approvisionnement mondiale — simulation, résilience, IA et durabilité.
+    </p>
+    <div class="hero-actions">
+      <a href="#articles" class="btn-primary">→ Explorer les Articles</a>
+      <a href="#intro-dt" class="btn-cyan">↓ Comprendre les JN</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Axes de recherche</div></div>
+    <div class="stat-card"><div class="stat-number">12+</div><div class="stat-label">Articles indexés</div></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- INTRO DIGITAL TWIN -->
+<section id="intro-dt">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label">Comprendre</div>
+      <h2 class="section-title">Qu'est-ce qu'un Jumeau Numérique ?</h2>
+    </div>
+  </div>
+  <div class="intro-grid">
+    <div class="intro-text reveal">
+      <p>Un <strong>jumeau numérique</strong> (Digital Twin) est une <strong>réplique virtuelle dynamique</strong> d'un objet physique, d'un processus ou d'un système entier. Alimenté en temps réel par des données issues de capteurs IoT, d'ERP et de systèmes d'information, il constitue un modèle <em>vivant</em> qui évolue en permanence avec son référentiel physique.</p>
+      <div class="intro-highlight">
+        💡 « Ce n'est pas simplement un modèle 3D : c'est un modèle connecté, capable de simuler des scénarios futurs, de tester des décisions sans risque, de prédire des comportements et d'optimiser les performances en continu. »
+      </div>
+      <p>Le concept a émergé en <strong>1970</strong> lors de la mission Apollo 13 (NASA), où une réplique terrestre du vaisseau permit de simuler des solutions de secours en conditions critiques. Il fut formalisé en <strong>2002</strong> par Michael Grieves dans le cadre du PLM (Product Lifecycle Management).</p>
+      <p>Appliqué à la <strong>Supply Chain</strong>, le jumeau numérique modélise l'ensemble de la chaîne logistique — fournisseurs, entrepôts, transport, distribution — et permet de tester des décisions <em>avant</em> de les implémenter physiquement, réduisant drastiquement les coûts d'erreur.</p>
+    </div>
+    <div class="intro-illustration reveal">
+      <svg class="dt-visual float-anim" viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gC" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#00C8E0" stop-opacity=".8"/><stop offset="100%" stop-color="#8B5CF6" stop-opacity=".6"/></linearGradient>
+          <linearGradient id="gR" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#C8102E" stop-opacity=".8"/><stop offset="100%" stop-color="#FF7A3C" stop-opacity=".6"/></linearGradient>
+          <marker id="arR" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="none" stroke="#00C8E0" stroke-width="1"/></marker>
+          <marker id="arL" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto-start-reverse"><path d="M0,0 L6,3 L0,6" fill="none" stroke="#C8102E" stroke-width="1"/></marker>
+        </defs>
+        <!-- Physical world -->
+        <rect x="20" y="60" width="180" height="260" rx="8" fill="rgba(24,25,39,.9)" stroke="rgba(200,16,46,.5)" stroke-width="1.5"/>
+        <text x="110" y="86" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="12" fill="#FF4060" letter-spacing="2">MONDE PHYSIQUE</text>
+        <rect x="48" y="103" width="50" height="34" rx="2" fill="rgba(200,16,46,.15)" stroke="rgba(200,16,46,.4)" stroke-width="1"/>
+        <rect x="54" y="93" width="11" height="12" rx="1" fill="rgba(200,16,46,.4)"/>
+        <text x="73" y="127" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#A8A8B8">Usine</text>
+        <rect x="126" y="103" width="50" height="34" rx="2" fill="rgba(200,16,46,.12)" stroke="rgba(200,16,46,.35)" stroke-width="1"/>
+        <text x="151" y="127" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#A8A8B8">Entrepôt</text>
+        <rect x="62" y="175" width="45" height="22" rx="3" fill="rgba(200,16,46,.15)" stroke="rgba(200,16,46,.4)" stroke-width="1"/>
+        <circle cx="69" cy="200" r="4" fill="rgba(200,16,46,.6)"/><circle cx="100" cy="200" r="4" fill="rgba(200,16,46,.6)"/>
+        <text x="85" y="190" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" fill="#A8A8B8">Transport</text>
+        <rect x="123" y="174" width="50" height="25" rx="2" fill="rgba(200,16,46,.12)" stroke="rgba(200,16,46,.3)" stroke-width="1"/>
+        <text x="148" y="191" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#A8A8B8">Client</text>
+        <circle cx="58" cy="244" r="5" fill="none" stroke="#FF4060" stroke-width="1.2" stroke-dasharray="3 2"/><circle cx="58" cy="244" r="2" fill="#FF4060"/>
+        <circle cx="93" cy="254" r="5" fill="none" stroke="#FF4060" stroke-width="1.2" stroke-dasharray="3 2"/><circle cx="93" cy="254" r="2" fill="#FF4060"/>
+        <circle cx="143" cy="244" r="5" fill="none" stroke="#FF4060" stroke-width="1.2" stroke-dasharray="3 2"/><circle cx="143" cy="254" r="2" fill="#FF4060"/>
+        <text x="110" y="283" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#FF4060" letter-spacing="1">IoT CAPTEURS</text>
+        <!-- Center -->
+        <text x="240" y="46" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(0,200,224,.7)" letter-spacing="1">SYNC TEMPS RÉEL</text>
+        <path d="M205,135 Q240,125 275,135" stroke="url(#gC)" stroke-width="2" fill="none" marker-end="url(#arR)"/>
+        <path d="M275,160 Q240,170 205,160" stroke="url(#gR)" stroke-width="2" fill="none" marker-end="url(#arL)"/>
+        <path d="M205,196 Q240,186 275,196" stroke="url(#gC)" stroke-width="1.5" fill="none" stroke-dasharray="5 3" marker-end="url(#arR)"/>
+        <path d="M275,220 Q240,230 205,220" stroke="url(#gR)" stroke-width="1.5" fill="none" stroke-dasharray="5 3" marker-end="url(#arL)"/>
+        <rect x="213" y="250" width="54" height="24" rx="12" fill="rgba(0,200,224,.15)" stroke="rgba(0,200,224,.4)" stroke-width="1"/>
+        <text x="240" y="266" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#00C8E0">DATA</text>
+        <!-- Digital twin world -->
+        <rect x="280" y="60" width="180" height="260" rx="8" fill="rgba(14,15,24,.95)" stroke="rgba(0,200,224,.5)" stroke-width="1.5"/>
+        <text x="370" y="86" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="12" fill="#00C8E0" letter-spacing="2">JUMEAU NUMÉRIQUE</text>
+        <rect x="308" y="103" width="50" height="34" rx="2" fill="rgba(0,200,224,.08)" stroke="rgba(0,200,224,.4)" stroke-width="1" stroke-dasharray="4 3"/>
+        <text x="333" y="127" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#00C8E0">Usine ▸</text>
+        <rect x="388" y="103" width="50" height="34" rx="2" fill="rgba(0,200,224,.06)" stroke="rgba(0,200,224,.35)" stroke-width="1" stroke-dasharray="4 3"/>
+        <text x="413" y="127" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#00C8E0">Entrepôt ▸</text>
+        <rect x="320" y="173" width="46" height="22" rx="3" fill="rgba(0,200,224,.08)" stroke="rgba(0,200,224,.4)" stroke-width="1" stroke-dasharray="4 3"/>
+        <text x="343" y="188" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" fill="#00C8E0">Transport ▸</text>
+        <rect x="385" y="173" width="50" height="25" rx="2" fill="rgba(0,200,224,.06)" stroke="rgba(0,200,224,.3)" stroke-width="1" stroke-dasharray="4 3"/>
+        <text x="410" y="190" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#00C8E0">Client ▸</text>
+        <rect x="305" y="238" width="130" height="50" rx="4" fill="rgba(139,92,246,.12)" stroke="rgba(139,92,246,.35)" stroke-width="1"/>
+        <text x="370" y="258" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="11" fill="#A78BFA" letter-spacing="1">IA · SIMULATION</text>
+        <text x="370" y="275" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(167,139,250,.7)">Prédiction · Optimisation</text>
+        <!-- Labels -->
+        <text x="110" y="336" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(200,16,46,.6)" letter-spacing="1">RÉEL</text>
+        <text x="370" y="336" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(0,200,224,.6)" letter-spacing="1">VIRTUEL</text>
+        <text x="240" y="358" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="rgba(255,255,255,.25)">Ahmed CHARRAFI · Centrale Lyon 2026</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- GÉOPOLITIQUE -->
+<section id="geopolitique" class="alt">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label red">Contexte mondial</div>
+      <h2 class="section-title">Une Supply Chain sous pression géopolitique</h2>
+    </div>
+  </div>
+  <div class="geo-grid">
+    <div class="event-card reveal">
+      <div class="event-icon">🦠</div>
+      <div class="event-title">Pandémie COVID-19</div>
+      <div class="event-year">2020 – 2022</div>
+      <div class="event-desc">Effondrement brutal des chaînes d'approvisionnement mondiales : fermetures d'usines en Asie, pénurie de semi-conducteurs, explosion des délais de livraison. Le COVID a révélé la fragilité des supply chains optimisées pour l'efficience mais pas pour la résilience.</div>
+    </div>
+    <div class="event-card reveal">
+      <div class="event-icon">⚓</div>
+      <div class="event-title">Blocage du Canal de Suez</div>
+      <div class="event-year">Mars 2021 — Ever Given</div>
+      <div class="event-desc">6 jours de blocage, 400 navires en attente, ~9,6 milliards de dollars bloqués par jour. Un seul incident a démontré qu'une perturbation d'un nœud critique peut paralyser le commerce mondial pendant des semaines entières.</div>
+    </div>
+    <div class="event-card reveal">
+      <div class="event-icon">🇮🇷</div>
+      <div class="event-title">Tensions Iran & Mer Rouge</div>
+      <div class="event-year">2023 – 2025</div>
+      <div class="event-desc">Les attaques en mer Rouge ont contraint des centaines de navires à contourner le cap de Bonne-Espérance, augmentant les coûts du fret de +200% et les délais de 2 à 3 semaines — sans outils prédictifs suffisants pour anticiper le reroutage.</div>
+    </div>
+    <div class="event-card reveal">
+      <div class="event-icon">🌎</div>
+      <div class="event-title">Sanctions & Fragmentation</div>
+      <div class="event-year">Venezuela, Russie, Chine…</div>
+      <div class="event-desc">Les régimes de sanctions fragmentent les chaînes d'approvisionnement. Les entreprises doivent reconfigurer leurs réseaux en temps réel — une tâche impossible sans simulation avancée et visibilité de bout en bout de toute la chaîne.</div>
+    </div>
+  </div>
+  <div class="geo-conclusion reveal">
+    <div class="geo-conclusion-icon">🔗</div>
+    <div class="geo-conclusion-text">
+      Face à cette complexité croissante, le <strong>jumeau numérique de la supply chain</strong> s'impose comme une réponse technologique incontournable : il permet de <strong>simuler des perturbations</strong> (pandémie, blocage, sanctions), de tester des scénarios alternatifs en quelques secondes, et de prendre des décisions data-driven — <strong>avant même que la crise ne se produise</strong>. C'est un outil de résilience stratégique autant que d'optimisation opérationnelle.
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- AXES -->
+<section id="axes">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label">Cadrage thématique</div>
+      <h2 class="section-title">Axes de Recherche</h2>
+    </div>
+  </div>
+  <div class="axes-grid">
+    <div class="axe-card reveal">
+      <span class="axe-num">01</span>
+      <div class="axe-icon">⚙️</div>
+      <div class="axe-title">Simulation & Optimisation</div>
+      <div class="axe-focus">Comment le digital twin optimise ?</div>
+      <div class="axe-tags"><span class="axe-tag">Discrete-event</span><span class="axe-tag">Multi-echelon</span><span class="axe-tag">Network design</span><span class="axe-tag">Real-time</span><span class="axe-tag">Prescriptive analytics</span></div>
+    </div>
+    <div class="axe-card reveal">
+      <span class="axe-num">02</span>
+      <div class="axe-icon">🛡️</div>
+      <div class="axe-title">Résilience & Risk Management</div>
+      <div class="axe-focus">Gestion des perturbations</div>
+      <div class="axe-tags"><span class="axe-tag">SC resilience</span><span class="axe-tag">Disruption sim.</span><span class="axe-tag">Risk propagation</span><span class="axe-tag">Scenario planning</span><span class="axe-tag">Pandemic modeling</span></div>
+    </div>
+    <div class="axe-card reveal">
+      <span class="axe-num">03</span>
+      <div class="axe-icon">🤖</div>
+      <div class="axe-title">IA & Machine Learning</div>
+      <div class="axe-focus">Intelligence embarquée dans le jumeau</div>
+      <div class="axe-tags"><span class="axe-tag">Demand forecasting</span><span class="axe-tag">Autonomous decisions</span><span class="axe-tag">AI control tower</span><span class="axe-tag">Self-optimizing SC</span></div>
+    </div>
+    <div class="axe-card reveal">
+      <span class="axe-num">04</span>
+      <div class="axe-icon">🌿</div>
+      <div class="axe-title">Durabilité & Green SC</div>
+      <div class="axe-focus">Impact environnemental</div>
+      <div class="axe-tags"><span class="axe-tag">Carbon footprint</span><span class="axe-tag">Energy-efficient</span><span class="axe-tag">Sustainable modeling</span><span class="axe-tag">Circular SC DT</span></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ARTICLES -->
+<section id="articles" class="alt">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label orange">Corpus documentaire</div>
+      <h2 class="section-title">Articles Indexés</h2>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <span class="filter-label">Filtrer :</span>
+    <button class="filter-btn active" data-axe="all" onclick="filterTable('all',this)">Tous</button>
+    <button class="filter-btn" data-axe="1" onclick="filterTable('1',this)">Simulation</button>
+    <button class="filter-btn" data-axe="2" onclick="filterTable('2',this)">Résilience</button>
+    <button class="filter-btn" data-axe="4" onclick="filterTable('4',this)">IA & ML</button>
+    <button class="filter-btn" data-axe="5" onclick="filterTable('5',this)">Green SC</button>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Rechercher…" oninput="searchTable()">
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table id="articlesTable">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)" class="sorted">Titre <span class="sort-icon">▼</span></th>
+          <th onclick="sortTable(1)">Auteurs <span class="sort-icon">↕</span></th>
+          <th onclick="sortTable(2)">Date <span class="sort-icon">↕</span></th>
+          <th onclick="sortTable(3)">Axe <span class="sort-icon">↕</span></th>
+          <th onclick="sortTable(4)">Source <span class="sort-icon">↕</span></th>
+          <th>Lien</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+    <div class="pagination" id="pagination">
+      <div class="per-page">Lignes : <select onchange="changePerPage(this.value)"><option value="5">5</option><option value="10" selected>10</option><option value="20">20</option></select></div>
+      <div class="page-info" id="pageInfo"></div>
+      <div class="page-controls" id="pageControls"></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- KEYWORDS -->
+<section id="keywords">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label">Méthodologie</div>
+      <h2 class="section-title">Mots-Clés de Veille</h2>
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--cyan);letter-spacing:.1em">Veille bilingue · FR / EN</div>
+  </div>
+  <div class="kw-grid">
+    <div class="kw-group reveal">
+      <div class="kw-group-title">🏭 Domaine SCM</div>
+      <ul class="kw-list"><li>Supply Chain</li><li>Logistique</li><li>Approvisionnement</li><li>Achat</li><li>Production</li></ul>
+    </div>
+    <div class="kw-group reveal">
+      <div class="kw-group-title">⚡ Technologie</div>
+      <ul class="kw-list"><li>Digital Twin · Jumeau Numérique</li><li>IoT / Capteurs</li><li>IA / Machine Learning</li><li>Simulation 3D</li><li>ERP / Industry 4.0</li></ul>
+    </div>
+    <div class="kw-group reveal">
+      <div class="kw-group-title">📊 Performance</div>
+      <ul class="kw-list"><li>Optimisation · Résilience</li><li>Agilité</li><li>Green Supply Chain</li><li>Économie Circulaire</li><li>KPI · Control Tower</li></ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SOURCES -->
+<section id="sources" class="alt">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label">Ressources</div>
+      <h2 class="section-title">Bases de Données</h2>
+    </div>
+  </div>
+  <div class="sources-grid">
+    <a class="source-card reveal" href="https://scholar.google.com" target="_blank"><div class="source-icon">🎓</div><div class="source-name">Google Scholar</div><div class="source-type">Moteur académique</div></a>
+    <a class="source-card reveal" href="https://www.sciencedirect.com" target="_blank"><div class="source-icon">📘</div><div class="source-name">ScienceDirect</div><div class="source-type">Revues Elsevier</div></a>
+    <a class="source-card reveal" href="https://www.researchgate.net" target="_blank"><div class="source-icon">🔬</div><div class="source-name">ResearchGate</div><div class="source-type">Réseau académique</div></a>
+    <a class="source-card reveal" href="https://www.proquest.com" target="_blank"><div class="source-icon">📚</div><div class="source-name">ProQuest</div><div class="source-type">Base multidisciplinaire</div></a>
+    <a class="source-card reveal" href="https://www.relexsolutions.com/resources/digital-twin-supply-chain" target="_blank"><div class="source-icon">🔗</div><div class="source-name">RELEX Solutions</div><div class="source-type">Cas d'usage Vita Coco</div></a>
+    <a class="source-card reveal" href="https://feedly.com" target="_blank"><div class="source-icon">📡</div><div class="source-name">Feedly RSS</div><div class="source-type">Agrégation flux RSS</div></a>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label">Question · Proposition</div>
+      <h2 class="section-title">Contacter le Propriétaire</h2>
+    </div>
+  </div>
+  <div class="contact-wrap reveal">
+    <div class="contact-avatar">👨‍💻</div>
+    <div class="contact-name">Ahmed CHARRAFI</div>
+    <div class="contact-role">Étudiant Ingénieur · École Centrale de Lyon · Veille NTIC 2026</div>
+    <div class="contact-desc">
+      Vous avez des <strong style="color:var(--blanc)">questions</strong> sur cette veille technologique ? Des <strong style="color:var(--blanc)">propositions d'articles</strong> ou de nouvelles sources à intégrer au corpus ? Des remarques sur les jumeaux numériques et la supply chain ? N'hésitez pas à contacter directement le propriétaire de ce site de veille.
+    </div>
+    <a class="contact-mail" href="mailto:ahmed.charrafi@etu.ec-lyon.fr">
+      ✉️ &nbsp; ahmed.charrafi@etu.ec-lyon.fr
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-title">Digital Twin Hub · Supply Chain Veille</div>
+    <div class="footer-meta">
+      Centrale Lyon 2026 &nbsp;·&nbsp; Étudiant : <span class="c">Ahmed CHARRAFI</span> &nbsp;·&nbsp; Tuteur : <span class="r">Romain VUILLEMOT</span>
+    </div>
+  </div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--texte);letter-spacing:.1em;text-align:right;line-height:1.8">
+    Mis à jour le <span style="color:var(--cyan)" id="footerDate"></span><br>
+    <span style="color:rgba(255,255,255,.2)">Tous droits réservés · ECL 2026</span>
+  </div>
+</footer>
+
+<script>
+// DATA
+const ARTICLES=[
+  {title:"Unlocking the potential of digital twins in supply chains: A systematic review",source:"Supply Chain Analytics · Elsevier",authors:"Sani S., Zarifnia A., Salonitis K., Milisavljevic-Syed J.",date:"2024-09",axe:"1",url:"https://www.sciencedirect.com/science/article/pii/S2949863524000189"},
+  {title:"Supply Chain 4.0 and the Digital Twin Approach: A Framework for Improving Supply Chain Visibility",source:"Procedia CIRP · Elsevier",authors:"Sani S., Zarifnia A., Salonitis K., Milisavljevic-Syed J.",date:"2024-01",axe:"1",url:"https://www.sciencedirect.com/science/article/pii/S2212827124006905"},
+  {title:"Digital Twins in Supply Chain Operations: Bridging the Physical and Digital Worlds using AI",source:"Journal of Electrical Systems",authors:"ResearchGate / Collectif",date:"2024-07",axe:"4",url:"https://www.researchgate.net/publication/382581730"},
+  {title:"Leveraging digital twin technology for end-to-end supply chain optimization and disruption mitigation in global logistics",source:"World Journal of Advanced Research and Reviews",authors:"Collectif WJARR",date:"2025-01",axe:"2",url:"https://journalwjarr.com/sites/default/files/fulltext_pdf/WJARR-2025-0314.pdf"},
+  {title:"An Introduction to Digital Twins",source:"Winter Simulation Conference · IEEE · Orlando",authors:"IEEE / WSC Collectif",date:"2024-12",axe:"1",url:"https://doi.org/10.1109/WSC63780.2024.10838793"},
+  {title:"Industry 4.0 Technologies for Manufacturing Sustainability: A Systematic Review and Future Research Directions",source:"Revue académique Elsevier",authors:"Collectif Industry 4.0",date:"2023-06",axe:"5",url:"https://www.sciencedirect.com"},
+  {title:"Digital Twin Supply Chain: Vita Coco Case Study",source:"RELEX Solutions · Blog",authors:"RELEX Solutions",date:"2023-11",axe:"1",url:"https://www.relexsolutions.com/resources/digital-twin-supply-chain"},
+  {title:"3D Digital Warehouse Twin to improve operational efficiency and logistics management",source:"LinkedIn · Florian Palatini",authors:"Florian Palatini",date:"2024-11",axe:"1",url:"https://www.linkedin.com/posts/florian-palatini"},
+  {title:"PepsiCo reimagines supply chain performance through digital twins and AI with Siemens",source:"Siemens Digital Industries · Blog",authors:"Siemens / PepsiCo",date:"2024-03",axe:"4",url:"https://blogs.sw.siemens.com"},
+  {title:"Supply Chain Resilience through Digital Twin: Pandemic Impact Modeling",source:"Google Scholar",authors:"Collectif académique",date:"2022-08",axe:"2",url:"https://scholar.google.com"},
+  {title:"AI-Driven Control Tower: Autonomous Decision-Making in Supply Chain Digital Twins",source:"ScienceDirect",authors:"Collectif SCM Tech",date:"2023-10",axe:"4",url:"https://www.sciencedirect.com"},
+  {title:"Carbon footprint optimization through circular supply chain digital twin modeling",source:"ProQuest Journals",authors:"Collectif Green SC",date:"2023-04",axe:"5",url:"https://www.proquest.com"}
+];
+const AXE_LABELS={'1':'Simulation','2':'Résilience','4':'IA & ML','5':'Green SC'};
+const AXE_PILLS={'1':'pill-1','2':'pill-2','4':'pill-4','5':'pill-5'};
+
+let filtered=[...ARTICLES],currentPage=1,perPage=10,activeFilter='all',sortCol=-1,sortDir=1;
+
+// DATE
+const now=new Date();
+const opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
+const d=now.toLocaleDateString('fr-FR',opts);
+document.getElementById('todayDate').textContent=d.charAt(0).toUpperCase()+d.slice(1);
+document.getElementById('footerDate').textContent=now.toLocaleDateString('fr-FR',{year:'numeric',month:'long',day:'numeric'});
+
+function renderTable(){
+  const s=(currentPage-1)*perPage,e=s+perPage,pg=filtered.slice(s,e);
+  const tbody=document.getElementById('tableBody');
+  if(!filtered.length){
+    tbody.innerHTML=`<tr><td colspan="6"><div class="no-results"><span>🔍</span>Aucun article trouvé</div></td></tr>`;
+  } else {
+    tbody.innerHTML=pg.map(a=>`
+      <tr>
+        <td><div class="article-title">${a.title}</div><div class="article-source">${a.source}</div></td>
+        <td><div class="authors-cell">${a.authors}</div></td>
+        <td><div class="date-cell">${fmtDate(a.date)}</div></td>
+        <td><span class="axe-pill ${AXE_PILLS[a.axe]}">${AXE_LABELS[a.axe]}</span></td>
+        <td style="font-size:.7rem;max-width:130px;color:var(--texte)">${a.source.split('·')[0].trim()}</td>
+        <td><a href="${a.url}" target="_blank" class="link-btn">Voir ↗</a></td>
+      </tr>`).join('');
+  }
+  renderPagination();
+}
+
+function fmtDate(d){const m=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];const[y,mo]=d.split('-');return`${m[parseInt(mo)-1]} ${y}`;}
+
+function renderPagination(){
+  const total=Math.ceil(filtered.length/perPage);
+  const s=Math.min((currentPage-1)*perPage+1,filtered.length),e=Math.min(currentPage*perPage,filtered.length);
+  document.getElementById('pageInfo').innerHTML=`<span>${s}–${e}</span> sur <span>${filtered.length}</span>`;
+  let html=`<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+  for(let i=1;i<=total;i++){
+    if(total<=7||i===1||i===total||Math.abs(i-currentPage)<=1)html+=`<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+    else if(Math.abs(i-currentPage)===2)html+=`<button class="page-btn" disabled>…</button>`;
+  }
+  html+=`<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===total||!total?'disabled':''}>›</button>`;
+  document.getElementById('pageControls').innerHTML=html;
+}
+
+function goPage(n){const t=Math.ceil(filtered.length/perPage);if(n<1||n>t)return;currentPage=n;renderTable();document.getElementById('articles').scrollIntoView({behavior:'smooth',block:'start'});}
+function changePerPage(v){perPage=parseInt(v);currentPage=1;renderTable();}
+function filterTable(axe,btn){activeFilter=axe;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');applyFilters();}
+function searchTable(){applyFilters();}
+function applyFilters(){const q=document.getElementById('searchInput').value.toLowerCase();filtered=ARTICLES.filter(a=>(activeFilter==='all'||a.axe===activeFilter)&&(!q||a.title.toLowerCase().includes(q)||a.authors.toLowerCase().includes(q)||a.source.toLowerCase().includes(q)));currentPage=1;renderTable();}
+function sortTable(col){const ths=document.querySelectorAll('thead th');ths.forEach((h,i)=>{h.classList.remove('sorted');h.querySelector('.sort-icon').textContent='↕';});if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=1;}ths[col].classList.add('sorted');ths[col].querySelector('.sort-icon').textContent=sortDir===1?'▼':'▲';const keys=['title','authors','date','axe','source'];filtered.sort((a,b)=>a[keys[col]].localeCompare(b[keys[col]])*sortDir);currentPage=1;renderTable();}
+
+// SCROLL REVEAL
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+renderTable();
+</script>
+</body>
+</html>
