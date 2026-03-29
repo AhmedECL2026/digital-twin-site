@@ -19,13 +19,19 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .side-bar{position:fixed;left:0;top:0;width:3px;height:100vh;background:linear-gradient(180deg,var(--cyan) 0%,var(--rouge-clair) 50%,var(--violet) 100%);z-index:200}
 
 /* WELCOME */
-.welcome-banner{background:linear-gradient(135deg,#0a1628 0%,#0e0a20 50%,#1a0a10 100%);border-bottom:1px solid rgba(0,200,224,.25);padding:.7rem 3.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;position:relative;overflow:hidden}
+.welcome-banner{background:linear-gradient(135deg,#0a1628 0%,#0e0a20 50%,#1a0a10 100%);border-bottom:1px solid rgba(0,200,224,.25);padding:.7rem 3.5rem;display:flex;flex-direction:column;gap:.55rem;position:relative;overflow:hidden}
 .welcome-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,200,224,.06) 0%,transparent 50%,rgba(200,16,46,.06) 100%)}
+.welcome-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;position:relative}
 .welcome-text{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.1em;color:var(--blanc-casse);position:relative}
 .welcome-text strong{color:var(--cyan)}
 .welcome-date{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:var(--rouge-clair);position:relative;display:flex;align-items:center;gap:.5rem}
 .pulse-dot{width:7px;height:7px;background:var(--vert);border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.5)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+
+/* SLOGAN */
+.welcome-slogan{position:relative;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:300;font-style:italic;letter-spacing:.04em;color:transparent;background:linear-gradient(90deg, var(--cyan) 0%, rgba(255,255,255,.7) 40%, var(--rouge-clair) 80%, var(--violet) 100%);-webkit-background-clip:text;background-clip:text;padding:.2rem 0 .15rem;line-height:1.5;max-width:860px}
+.welcome-slogan::before{content:'✦';font-style:normal;margin-right:.55rem;color:var(--cyan);opacity:.8;font-size:.65rem}
+.welcome-slogan::after{content:'✦';font-style:normal;margin-left:.55rem;color:var(--rouge-clair);opacity:.8;font-size:.65rem}
 
 /* NAV */
 nav{position:sticky;top:0;z-index:190;display:flex;align-items:center;justify-content:space-between;padding:.85rem 3.5rem;background:rgba(7,8,13,.92);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.06)}
@@ -38,6 +44,11 @@ nav{position:sticky;top:0;z-index:190;display:flex;align-items:center;justify-co
 .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--cyan);transition:width .3s}
 .nav-links a:hover{color:var(--blanc)}
 .nav-links a:hover::after{width:100%}
+
+/* ECL LOGO in nav */
+.nav-right{display:flex;align-items:center;gap:1rem}
+.ecl-logo-wrap{display:flex;align-items:center;padding:.3rem .6rem;border:1px solid rgba(200,16,46,.25);border-radius:3px;background:rgba(255,255,255,.04)}
+.ecl-logo-img{height:38px;width:auto;flex-shrink:0;filter:brightness(0) invert(1);opacity:.92}
 .nav-badge{font-family:'JetBrains Mono',monospace;font-size:.6rem;background:rgba(0,200,224,.1);border:1px solid rgba(0,200,224,.3);color:var(--cyan);padding:.3rem .9rem;border-radius:20px;letter-spacing:.1em}
 
 /* HERO */
@@ -206,6 +217,7 @@ footer{background:var(--gris-fonce);border-top:1px solid rgba(0,200,224,.12);pad
   nav{padding:.9rem 1.5rem}.nav-links{display:none}
   section{padding:3rem 1.5rem}.hero{padding:4rem 1.5rem 3rem}
   .divider{margin:0 1.5rem}.footer,.welcome-banner{padding-left:1.5rem;padding-right:1.5rem}
+  .ecl-logo-wrap{display:none}
 }
 </style>
 </head>
@@ -214,13 +226,19 @@ footer{background:var(--gris-fonce);border-top:1px solid rgba(0,200,224,.12);pad
 
 <!-- WELCOME BANNER -->
 <div class="welcome-banner">
-  <div class="welcome-text">
-    🎓 Bienvenue sur le site dédié à la <strong>Veille Technologique NTIC</strong> —
-    <strong>Jumeaux Numériques & Optimisation de la Supply Chain</strong> · Centrale Lyon 2026
+  <div class="welcome-top">
+    <div class="welcome-text">
+      🎓 Bienvenue sur le site d'<strong>Ahmed CHARRAFI</strong>, dédié à la
+      <strong>Veille Technologique NTIC</strong> —
+      <strong>Jumeaux Numériques & Optimisation de la Supply Chain</strong> · Centrale Lyon 2026
+    </div>
+    <div class="welcome-date">
+      <div class="pulse-dot"></div>
+      <span id="todayDate"></span>
+    </div>
   </div>
-  <div class="welcome-date">
-    <div class="pulse-dot"></div>
-    <span id="todayDate"></span>
+  <div class="welcome-slogan">
+    Dans un monde où la supply chain ne cesse d'être challengée et ébranlée — pandémies, crises géopolitiques, routes maritimes sous tension — découvrez ici les derniers articles qui explorent comment les jumeaux numériques réinventent l'art de l'optimisation.
   </div>
 </div>
 
@@ -229,17 +247,13 @@ footer{background:var(--gris-fonce);border-top:1px solid rgba(0,200,224,.12);pad
   <a href="#hero" class="nav-logo">
     <svg class="nav-logo-svg" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
       <polygon points="27,2 51,15 51,39 27,52 3,39 3,15" fill="#0E0F18" stroke="rgba(0,200,224,0.45)" stroke-width="1.3"/>
-      <!-- supply chain nodes -->
       <circle cx="27" cy="13" r="4.5" fill="#00C8E0" opacity=".9"/>
       <circle cx="40" cy="33" r="4.5" fill="#C8102E" opacity=".9"/>
       <circle cx="14" cy="33" r="4.5" fill="#8B5CF6" opacity=".9"/>
-      <!-- links -->
       <line x1="27" y1="17.5" x2="38" y2="29.5" stroke="rgba(0,200,224,0.5)" stroke-width="1.3" stroke-dasharray="3 2"/>
       <line x1="27" y1="17.5" x2="16" y2="29.5" stroke="rgba(139,92,246,0.5)" stroke-width="1.3" stroke-dasharray="3 2"/>
       <line x1="36" y1="33" x2="18" y2="33" stroke="rgba(200,16,46,0.4)" stroke-width="1.3" stroke-dasharray="3 2"/>
-      <!-- digital twin outer ring -->
       <polygon points="27,5 48,17 48,37 27,49 6,37 6,17" fill="none" stroke="rgba(0,200,224,0.14)" stroke-width="0.8" stroke-dasharray="4 3"/>
-      <!-- center hub -->
       <circle cx="27" cy="27" r="4" fill="rgba(0,200,224,0.15)"/>
       <circle cx="27" cy="27" r="2" fill="#00C8E0"/>
     </svg>
@@ -256,7 +270,13 @@ footer{background:var(--gris-fonce);border-top:1px solid rgba(0,200,224,.12);pad
     <li><a href="#sources">Sources</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <div class="nav-badge">Centrale Lyon · 2026</div>
+  <div class="nav-right">
+    <!-- ECL LOGO -->
+    <div class="ecl-logo-wrap">
+      <img src="data:image/png;base64,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" alt="Centrale Lyon" class="ecl-logo-img">
+    </div>
+    <div class="nav-badge">Centrale Lyon · 2026</div>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -324,7 +344,6 @@ footer{background:var(--gris-fonce);border-top:1px solid rgba(0,200,224,.12);pad
           <marker id="arR" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="none" stroke="#00C8E0" stroke-width="1"/></marker>
           <marker id="arL" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto-start-reverse"><path d="M0,0 L6,3 L0,6" fill="none" stroke="#C8102E" stroke-width="1"/></marker>
         </defs>
-        <!-- Physical world -->
         <rect x="20" y="60" width="180" height="260" rx="8" fill="rgba(24,25,39,.9)" stroke="rgba(200,16,46,.5)" stroke-width="1.5"/>
         <text x="110" y="86" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="12" fill="#FF4060" letter-spacing="2">MONDE PHYSIQUE</text>
         <rect x="48" y="103" width="50" height="34" rx="2" fill="rgba(200,16,46,.15)" stroke="rgba(200,16,46,.4)" stroke-width="1"/>
@@ -341,7 +360,6 @@ footer{background:var(--gris-fonce);border-top:1px solid rgba(0,200,224,.12);pad
         <circle cx="93" cy="254" r="5" fill="none" stroke="#FF4060" stroke-width="1.2" stroke-dasharray="3 2"/><circle cx="93" cy="254" r="2" fill="#FF4060"/>
         <circle cx="143" cy="244" r="5" fill="none" stroke="#FF4060" stroke-width="1.2" stroke-dasharray="3 2"/><circle cx="143" cy="254" r="2" fill="#FF4060"/>
         <text x="110" y="283" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#FF4060" letter-spacing="1">IoT CAPTEURS</text>
-        <!-- Center -->
         <text x="240" y="46" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(0,200,224,.7)" letter-spacing="1">SYNC TEMPS RÉEL</text>
         <path d="M205,135 Q240,125 275,135" stroke="url(#gC)" stroke-width="2" fill="none" marker-end="url(#arR)"/>
         <path d="M275,160 Q240,170 205,160" stroke="url(#gR)" stroke-width="2" fill="none" marker-end="url(#arL)"/>
@@ -349,7 +367,6 @@ footer{background:var(--gris-fonce);border-top:1px solid rgba(0,200,224,.12);pad
         <path d="M275,220 Q240,230 205,220" stroke="url(#gR)" stroke-width="1.5" fill="none" stroke-dasharray="5 3" marker-end="url(#arL)"/>
         <rect x="213" y="250" width="54" height="24" rx="12" fill="rgba(0,200,224,.15)" stroke="rgba(0,200,224,.4)" stroke-width="1"/>
         <text x="240" y="266" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#00C8E0">DATA</text>
-        <!-- Digital twin world -->
         <rect x="280" y="60" width="180" height="260" rx="8" fill="rgba(14,15,24,.95)" stroke="rgba(0,200,224,.5)" stroke-width="1.5"/>
         <text x="370" y="86" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="12" fill="#00C8E0" letter-spacing="2">JUMEAU NUMÉRIQUE</text>
         <rect x="308" y="103" width="50" height="34" rx="2" fill="rgba(0,200,224,.08)" stroke="rgba(0,200,224,.4)" stroke-width="1" stroke-dasharray="4 3"/>
@@ -363,7 +380,6 @@ footer{background:var(--gris-fonce);border-top:1px solid rgba(0,200,224,.12);pad
         <rect x="305" y="238" width="130" height="50" rx="4" fill="rgba(139,92,246,.12)" stroke="rgba(139,92,246,.35)" stroke-width="1"/>
         <text x="370" y="258" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="11" fill="#A78BFA" letter-spacing="1">IA · SIMULATION</text>
         <text x="370" y="275" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(167,139,250,.7)">Prédiction · Optimisation</text>
-        <!-- Labels -->
         <text x="110" y="336" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(200,16,46,.6)" letter-spacing="1">RÉEL</text>
         <text x="370" y="336" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(0,200,224,.6)" letter-spacing="1">VIRTUEL</text>
         <text x="240" y="358" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="rgba(255,255,255,.25)">Ahmed CHARRAFI · Centrale Lyon 2026</text>
@@ -587,7 +603,6 @@ footer{background:var(--gris-fonce);border-top:1px solid rgba(0,200,224,.12);pad
 </footer>
 
 <script>
-// DATA
 const ARTICLES=[
   {title:"Unlocking the potential of digital twins in supply chains: A systematic review",source:"Supply Chain Analytics · Elsevier",authors:"Sani S., Zarifnia A., Salonitis K., Milisavljevic-Syed J.",date:"2024-09",axe:"1",url:"https://www.sciencedirect.com/science/article/pii/S2949863524000189"},
   {title:"Supply Chain 4.0 and the Digital Twin Approach: A Framework for Improving Supply Chain Visibility",source:"Procedia CIRP · Elsevier",authors:"Sani S., Zarifnia A., Salonitis K., Milisavljevic-Syed J.",date:"2024-01",axe:"1",url:"https://www.sciencedirect.com/science/article/pii/S2212827124006905"},
@@ -607,7 +622,6 @@ const AXE_PILLS={'1':'pill-1','2':'pill-2','4':'pill-4','5':'pill-5'};
 
 let filtered=[...ARTICLES],currentPage=1,perPage=10,activeFilter='all',sortCol=-1,sortDir=1;
 
-// DATE
 const now=new Date();
 const opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
 const d=now.toLocaleDateString('fr-FR',opts);
@@ -655,7 +669,6 @@ function searchTable(){applyFilters();}
 function applyFilters(){const q=document.getElementById('searchInput').value.toLowerCase();filtered=ARTICLES.filter(a=>(activeFilter==='all'||a.axe===activeFilter)&&(!q||a.title.toLowerCase().includes(q)||a.authors.toLowerCase().includes(q)||a.source.toLowerCase().includes(q)));currentPage=1;renderTable();}
 function sortTable(col){const ths=document.querySelectorAll('thead th');ths.forEach((h,i)=>{h.classList.remove('sorted');h.querySelector('.sort-icon').textContent='↕';});if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=1;}ths[col].classList.add('sorted');ths[col].querySelector('.sort-icon').textContent=sortDir===1?'▼':'▲';const keys=['title','authors','date','axe','source'];filtered.sort((a,b)=>a[keys[col]].localeCompare(b[keys[col]])*sortDir);currentPage=1;renderTable();}
 
-// SCROLL REVEAL
 const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
